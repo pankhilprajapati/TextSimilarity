@@ -13,13 +13,20 @@ client = MongoClient("mongo://27017")
 db = client.SimilarityDB
 users = db["Users"]
 
+def UserExist(username):
+    if users.find({"Username":username}).count() == 0:
+        return False
+    else:
+        return True
+
+
 class Register(Resource):
     def post(self):
         postedData = request.get_json()
 
         username = postedData["username"]
         password = postedData["password"]
-        if UserExit(username):
+        if UserExist(username):
             retJson = {
                 "Message": "Invalid Username",
                 "status" : 301
@@ -39,3 +46,9 @@ class Register(Resource):
             "status" : 200
         }
         return jsonify(retJson)
+
+
+api.add_resource(Register,'/registers')
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
