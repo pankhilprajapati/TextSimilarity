@@ -1,5 +1,5 @@
 from Flask import * 
-from flask-restful import *
+from flask_restful import *
 from pymongo import *
 import bcrypt
 import spacy 
