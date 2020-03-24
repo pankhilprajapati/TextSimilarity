@@ -1,4 +1,4 @@
-from Flask import * 
+from flask import * 
 from flask_restful import *
 from pymongo import *
 import bcrypt
@@ -8,7 +8,7 @@ import spacy
 app = Flask(__name__)
 api = Api(app)
 
-client = MongoClient("mongo://27017")
+client = MongoClient("mongodb://db:27017")
 
 db = client.SimilarityDB
 users = db["Users"]
@@ -36,7 +36,7 @@ class Register(Resource):
 
         users.insert({
             "Username": username,
-            "Password"; hashed_pw,
+            "Password": hashed_pw,
             "Token": 6
         })
 
@@ -92,7 +92,7 @@ class Detect(Resource):
             })
 
         # now checking similarity
-        nlp = spacy.load("en_core_web-md")
+        nlp = spacy.load("en_core_web_sm")
         
         text1  = nlp(text1)
         text2  = nlp(text2)
@@ -118,7 +118,7 @@ class Detect(Resource):
 
 
 class Refill(Resource):
-    if post(self):
+    def post(self):
         postedData = request.get_json()
 
         username = postedData["username"]
