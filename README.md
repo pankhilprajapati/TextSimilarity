@@ -10,7 +10,7 @@ both With non-sudo
    
 ```
 
-Clone the git repo, then install the requirements with pip
+Clone the git repo, then install the requirements with docker
 
 ```
 
