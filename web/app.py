@@ -27,11 +27,10 @@ class Register(Resource):
         username = postedData["username"]
         password = postedData["password"]
         if UserExist(username):
-            retJson = {
+            return  jsonify({
                 "Message": "Invalid Username",
                 "status" : 301
-            }
-            return  jsonify(retJson)
+            })
         
         hashed_pw = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
 
@@ -40,12 +39,27 @@ class Register(Resource):
             "Password"; password,
             "Token": 6
         })
-        
-        retJson = {
+
+        return jsonify({
             "Message": "Successfully signed up",
             "status" : 200
-        }
-        return jsonify(retJson)
+        })
+
+class Detect(Resource):
+    def post(self):
+        postedData = request.get_json()
+
+        username = postedData["username"]
+        password = postedData["password"]
+
+        text1 = postedData['text1']
+        text2 = postedData['text2']
+
+        if not UserExist(username):
+            return jsonify({
+                "status": 301,
+                "message": "user does not exit"
+            })
 
 
 api.add_resource(Register,'/registers')
